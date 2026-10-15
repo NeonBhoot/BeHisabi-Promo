@@ -178,11 +178,19 @@ body {
             grid-template-columns: repeat(10, minmax(0, 1fr));
             gap: 1.8cqw;
             margin-top: 5cqw;
+            /* breathing room: grid never touches the card border,
+               even if a viewer computes tracks slightly wide */
+            width: calc(100% - 4cqw);
+            margin-inline: auto;
         }
         .day {
             aspect-ratio: 1;
             min-width: 0;
             overflow: hidden;
+            /* circle slightly narrower than its track: guaranteed gap
+               from the card border on every renderer */
+            width: 94%;
+            margin-inline: auto;
             border-radius: 50%;
             display: flex;
             align-items: center;
