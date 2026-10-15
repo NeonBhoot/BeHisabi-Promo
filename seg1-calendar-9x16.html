@@ -234,12 +234,12 @@ body {
         .notif-top { display: flex; align-items: center; gap: 3cqw; }
         .app-icon {
             width: 10.5cqw; height: 10.5cqw; border-radius: 3cqw; flex: none;
-            background: linear-gradient(135deg, #10b981, #047857);
+            background: linear-gradient(135deg, #2563eb, #1e3a8a);
             display: flex; align-items: center; justify-content: center;
-            font-family: 'Baloo Da 2','Hind Siliguri',sans-serif;
-            font-size: 5.4cqw; font-weight: 700; color: #fff;
-            box-shadow: 0 0 5cqw rgba(16,185,129,.45);
+            color: #fff;
+            box-shadow: 0 0 5cqw rgba(37,99,235,.45);
         }
+        .app-icon svg { width: 5.8cqw; height: 5.8cqw; }
         .notif-app { font-size: 3.4cqw; font-weight: 700; color: #e8eef5; }
         .notif-time { font-size: 3cqw; color: #7d8ba0; margin-left: auto; }
         .notif-title { margin-top: 3.4cqw; font-size: 4.4cqw; font-weight: 700; color: #fff; }
@@ -281,8 +281,17 @@ body {
         <div class="notif-wrap" id="notifWrap">
             <div class="notif">
                 <div class="notif-top">
-                    <div class="app-icon">৳</div>
-                    <div class="notif-app">BeHisabi</div>
+                    <div class="app-icon">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                            <line x1="3" y1="22" x2="21" y2="22"></line>
+                            <line x1="6" y1="18" x2="6" y2="11"></line>
+                            <line x1="10" y1="18" x2="10" y2="11"></line>
+                            <line x1="14" y1="18" x2="14" y2="11"></line>
+                            <line x1="18" y1="18" x2="18" y2="11"></line>
+                            <polygon points="12 2 20 7 4 7"></polygon>
+                        </svg>
+                    </div>
+                    <div class="notif-app">Bank</div>
                     <div class="notif-time">এখন</div>
                 </div>
                 <div class="notif-title">বেতন জমা হয়েছে</div>
