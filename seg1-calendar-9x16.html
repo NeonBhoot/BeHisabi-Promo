@@ -273,11 +273,14 @@ body {
         .subtitle.show { animation: subIn .3s ease-out forwards; }
         @keyframes subIn { to { opacity: 1; } }
         .subtitle .tw { color: #ffffff; }
-        .subtitle .tg {
-            background: linear-gradient(135deg, #4ade80, #10b981);
-            -webkit-background-clip: text;
-            background-clip: text;
-            color: transparent;
+        .subtitle .tg { color: #34d399; }
+        @supports ((-webkit-background-clip: text) or (background-clip: text)) {
+            .subtitle .tg {
+                background: linear-gradient(135deg, #4ade80, #10b981);
+                -webkit-background-clip: text;
+                background-clip: text;
+                color: transparent;
+            }
         }
         .subtitle .cursor {
             display: inline-block;
@@ -387,14 +390,19 @@ body {
         }
 
         /* Subtitle types itself out, grapheme-safe for Bengali, two colors */
+        function graphemes(str) {
+            if (typeof Intl !== 'undefined' && Intl.Segmenter) {
+                return [...new Intl.Segmenter(undefined, { granularity: 'grapheme' })].map(s => s.segment);
+            }
+            return [...str];
+        }
         function typeSubtitle() {
             subtitle.classList.remove('show');
             void subtitle.offsetWidth;
             subtitle.classList.add('show');
-            const seg = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
             const items = [];
             SUB_PARTS.forEach(p => {
-                [...seg.segment(p.text)].forEach(s => items.push({ ch: s.segment, cls: p.cls }));
+                graphemes(p.text).forEach(ch => items.push({ ch, cls: p.cls }));
             });
             subtitle.innerHTML = '<span class="tw"></span><span class="tg"></span><span class="cursor"></span>';
             const spans = { w: subtitle.querySelector('.tw'), g: subtitle.querySelector('.tg') };
