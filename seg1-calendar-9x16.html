@@ -333,7 +333,7 @@ body {
                 const step = (t) => {
                     const p = Math.min(1, (t - s) / D);
                     const e = 1 - Math.pow(1 - p, 3);
-                    const v = bnComma(Math.round(50000 * e));
+                    const v = bnComma(Math.round(50011 * e));
                     notifAmt.textContent = '+ \u09F3' + v;
                     notifBal.textContent = '\u09F3' + v;
                     if (p < 1) requestAnimationFrame(step);
