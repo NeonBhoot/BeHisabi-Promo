@@ -6,7 +6,7 @@
     <title>BeHisabi Promo - Scene 1 (0s - 5.48s)</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Baloo+Da+2:wght@500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
     <style>:root {
             --bg-deep: #060b16;
             --bg-surface: #0d1629;
@@ -173,16 +173,21 @@ body {
 
         .month-grid {
             display: grid;
-            grid-template-columns: repeat(10, 1fr);
+            /* minmax(0,1fr): tracks may shrink below text min-content,
+               otherwise wide glyphs push the last column out of the card */
+            grid-template-columns: repeat(10, minmax(0, 1fr));
             gap: 1.8cqw;
             margin-top: 5cqw;
         }
         .day {
             aspect-ratio: 1;
+            min-width: 0;
+            overflow: hidden;
             border-radius: 50%;
             display: flex;
             align-items: center;
             justify-content: center;
+            font-family: 'Baloo Da 2', 'Hind Siliguri', sans-serif;
             font-size: 3.4cqw;
             font-weight: 600;
             color: #94a3b8;
