@@ -210,83 +210,48 @@ body {
             box-shadow: 0 0 24px rgba(16, 185, 129, 0.45);
         }
     
-        /* ============ phone (bottom, rises from below) ============ */
-        .phone-wrap {
+        
+        /* ============ salary notification (rises from bottom) ============ */
+        .notif-wrap {
             position: absolute;
-            bottom: 4cqw;
+            bottom: 6cqw;
             left: 50%;
-            width: 52cqw;
-            transform: translate(-50%, 135%);
+            width: 78cqw;
+            transform: translate(-50%, 150%);
             z-index: 3;
         }
-        .phone-wrap.play { animation: phoneUp .9s cubic-bezier(.22,.9,.26,1) .1s forwards; }
-        @keyframes phoneUp { to { transform: translate(-50%, 0); } }
-        .phone {
-            aspect-ratio: 9 / 18.4;
-            background: linear-gradient(160deg, #1a2230, #0a0e15);
-            border-radius: 7.5cqw;
-            border: 1px solid rgba(255,255,255,.16);
-            box-shadow: 0 4cqw 12cqw rgba(0,0,0,.55), 0 0 10cqw rgba(16,185,129,.12);
-            padding: 2.4cqw;
-            position: relative;
+        .notif-wrap.play { animation: notifUp .8s cubic-bezier(.22,.9,.26,1) .55s forwards; }
+        @keyframes notifUp { to { transform: translate(-50%, 0); } }
+        .notif {
+            background: rgba(15, 20, 29, .94);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-radius: 4.5cqw;
+            border: 1px solid rgba(255,255,255,.12);
+            box-shadow: 0 4cqw 12cqw rgba(0,0,0,.5), 0 0 9cqw rgba(16,185,129,.12);
+            padding: 4.5cqw 5cqw;
         }
-        .phone::after {
-            content: ""; position: absolute; right: -.7cqw; top: 22cqw;
-            width: .7cqw; height: 9cqw; background: #2a3444; border-radius: .4cqw;
-        }
-        .screen {
-            position: relative; width: 100%; height: 100%;
-            border-radius: 5.4cqw; overflow: hidden;
-            background:
-                radial-gradient(120% 55% at 50% 0%, rgba(16,185,129,.18), transparent 62%),
-                linear-gradient(180deg, #0d141d, #070b11);
-            display: flex; flex-direction: column; align-items: center;
-            padding-top: 6cqw;
-        }
-        .notch {
-            width: 15cqw; height: 3.2cqw; background: #04060a;
-            border-radius: 2cqw; margin-bottom: 4.5cqw;
-            border: 1px solid rgba(255,255,255,.07);
-        }
-        .app-name { font-size: 3.2cqw; font-weight: 700; color: #e8eef5; letter-spacing: .05em; }
-        .app-name em { font-style: normal; color: #10b981; }
-        .bal-label { margin-top: 6cqw; font-size: 3.4cqw; color: #8b98ab; font-weight: 500; }
-        .bal-num {
-            margin-top: 1.4cqw;
+        .notif-top { display: flex; align-items: center; gap: 3cqw; }
+        .app-icon {
+            width: 10.5cqw; height: 10.5cqw; border-radius: 3cqw; flex: none;
+            background: linear-gradient(135deg, #10b981, #047857);
+            display: flex; align-items: center; justify-content: center;
             font-family: 'Baloo Da 2','Hind Siliguri',sans-serif;
-            font-size: 8.6cqw; font-weight: 700; color: #fff; line-height: 1.15;
-            text-shadow: 0 0 6cqw rgba(16,185,129,.4);
+            font-size: 5.4cqw; font-weight: 700; color: #fff;
+            box-shadow: 0 0 5cqw rgba(16,185,129,.45);
         }
-        .bal-num.done { animation: balPop .45s cubic-bezier(.2,1.4,.4,1); }
-        @keyframes balPop { 40% { transform: scale(1.1); } }
-        .bal-chip {
-            margin-top: 3.2cqw; font-size: 3.1cqw; font-weight: 700; color: #34d399;
-            background: rgba(16,185,129,.12); border: 1px solid rgba(16,185,129,.38);
-            padding: 1.5cqw 3.6cqw; border-radius: 4cqw;
-            opacity: 0; transform: translateY(1.2cqw);
+        .notif-app { font-size: 3.4cqw; font-weight: 700; color: #e8eef5; }
+        .notif-time { font-size: 3cqw; color: #7d8ba0; margin-left: auto; }
+        .notif-title { margin-top: 3.4cqw; font-size: 4.4cqw; font-weight: 700; color: #fff; }
+        .notif-amt {
+            margin-top: 1cqw;
+            font-family: 'Baloo Da 2','Hind Siliguri',sans-serif;
+            font-size: 8.2cqw; font-weight: 700; color: #34d399; line-height: 1.2;
+            text-shadow: 0 0 6cqw rgba(16,185,129,.35);
         }
-        .bal-chip.show { animation: chipIn .5s ease-out forwards; }
-        @keyframes chipIn { to { opacity: 1; transform: none; } }
-
-        /* ============ flying taka notes ============ */
-        .note {
-            position: absolute; top: 0; left: 0;
-            width: 16.5cqw; aspect-ratio: 1.85;
-            border-radius: 1.1cqw;
-            background:
-                radial-gradient(circle at 50% 50%, rgba(255,255,255,.30) 0 17%, transparent 18%),
-                linear-gradient(135deg, #0e8a58 0%, #14c06e 55%, #0a6e44 100%);
-            border: 1px solid rgba(255,255,255,.38);
-            box-shadow: 0 1cqw 2.5cqw rgba(0,0,0,.45);
-            display: flex; align-items: center; justify-content: center; gap: 1.4cqw;
-            color: #fff; z-index: 4; will-change: transform, opacity;
-        }
-        .note::after {
-            content: ""; position: absolute; inset: .9cqw;
-            border: 1px dashed rgba(255,255,255,.4); border-radius: .7cqw;
-        }
-        .note .tk { font-family: 'Baloo Da 2','Hind Siliguri',sans-serif; font-size: 4.8cqw; font-weight: 700; }
-        .note .dn { font-family: 'Baloo Da 2','Hind Siliguri',sans-serif; font-size: 3.6cqw; font-weight: 600; opacity: .95; }
+        .notif-amt.done { animation: balPop .45s cubic-bezier(.2,1.4,.4,1); }
+        @keyframes balPop { 40% { transform: scale(1.08); } }
+        .notif-sub { margin-top: 1.6cqw; font-size: 3.4cqw; color: #8b98ab; font-weight: 500; }
     </style>
 </head>
 <body>
@@ -312,30 +277,31 @@ body {
             </div>
         </section>
     
-        <div class="phone-wrap" id="phoneWrap">
-            <div class="phone">
-                <div class="screen">
-                    <div class="notch"></div>
-                    <div class="app-name">Be<em>Hisabi</em></div>
-                    <div class="bal-label">মোট ব্যালেন্স</div>
-                    <div class="bal-num" id="balNum">৳০</div>
-                    <div class="bal-chip" id="balChip">+ ৳৫০,০০০ বেতন</div>
+        
+        <div class="notif-wrap" id="notifWrap">
+            <div class="notif">
+                <div class="notif-top">
+                    <div class="app-icon">৳</div>
+                    <div class="notif-app">BeHisabi</div>
+                    <div class="notif-time">এখন</div>
                 </div>
+                <div class="notif-title">বেতন জমা হয়েছে</div>
+                <div class="notif-amt" id="notifAmt">+ ৳০</div>
+                <div class="notif-sub">মোট ব্যালেন্স: <span id="notifBal">৳০</span></div>
             </div>
         </div>
-    </main>
+</main>
 
-        <script>
+            <script>
         const BN = ['\u09E6','\u09E7','\u09E8','\u09E9','\u09EA','\u09EB','\u09EC','\u09ED','\u09EE','\u09EF'];
         const bn = n => String(n).replace(/\d/g, d => BN[d]);
         const bnComma = n => Number(n).toLocaleString('en-IN').replace(/\d/g, d => BN[d]);
 
-        const stage = document.querySelector('.stage');
         const card = document.getElementById('calendarCard');
         const grid = document.getElementById('monthGrid');
-        const phoneWrap = document.getElementById('phoneWrap');
-        const balNum = document.getElementById('balNum');
-        const balChip = document.getElementById('balChip');
+        const notifWrap = document.getElementById('notifWrap');
+        const notifAmt = document.getElementById('notifAmt');
+        const notifBal = document.getElementById('notifBal');
         let timers = [];
 
         // Build the 30-day month grid; day 1 selected
@@ -346,63 +312,33 @@ body {
             grid.appendChild(cell);
         }
 
-        function clearTimers() {
-            timers.forEach(clearTimeout); timers = [];
-            stage.querySelectorAll('.note').forEach(n => n.remove());
-        }
+        function clearTimers() { timers.forEach(clearTimeout); timers = []; }
 
-        /* Taka notes fly in from left/right edges and sink into the phone */
-        function flyNotes() {
-            const sr = stage.getBoundingClientRect();
-            const pr = phoneWrap.getBoundingClientRect();
-            const tx = pr.left + pr.width / 2 - sr.left;
-            const ty = pr.top + pr.height * 0.30 - sr.top;
-            const COUNT = 12;
-            for (let i = 0; i < COUNT; i++) {
-                const fromLeft = i % 2 === 0;
-                const el = document.createElement('div');
-                el.className = 'note';
-                el.innerHTML = '<span class="tk">\u09F3</span><span class="dn">' + bn(1000) + '</span>';
-                stage.appendChild(el);
-                const x0 = fromLeft ? -sr.width * 0.22 : sr.width * 1.02;
-                const y0 = sr.height * (0.30 + Math.random() * 0.35);
-                const delay = 750 + i * 62, dur = 540;
-                const rot = (Math.random() * 50 - 25).toFixed(1);
-                const lift = -(30 + Math.random() * 40);
-                const xm = x0 + (tx - x0) * 0.25;
-                const f = (x, y, r, sc, o) => ({ transform: `translate(${x.toFixed(1)}px,${y.toFixed(1)}px) rotate(${r}deg) scale(${sc})`, opacity: o });
-                el.animate([
-                    Object.assign(f(x0, y0, rot, .9, 0)),
-                    Object.assign(f(xm, y0 + lift, (rot / 2).toFixed(1), 1, 1), { offset: .35 }),
-                    Object.assign(f(tx, ty, 0, .32, 1), { offset: .82 }),
-                    f(tx, ty + 14, 0, .12, 0)
-                ], { duration: dur, delay: delay, easing: 'cubic-bezier(.36,.62,.32,1)', fill: 'both' });
-                timers.push(setTimeout(() => el.remove(), delay + dur + 120));
-            }
-        }
-
-        /* Balance counts 0 -> 50,000 while notes land */
+        /* Salary amount counts 0 -> 50,000 after the notification lands */
         function countUp() {
-            balNum.classList.remove('done'); balChip.classList.remove('show');
-            balNum.textContent = '\u09F3' + bn(0);
+            notifAmt.classList.remove('done');
+            notifAmt.textContent = '+ \u09F3' + bn(0);
+            notifBal.textContent = '\u09F3' + bn(0);
             timers.push(setTimeout(() => {
-                const s = performance.now(), D = 1050;
+                const s = performance.now(), D = 800;
                 const step = (t) => {
                     const p = Math.min(1, (t - s) / D);
                     const e = 1 - Math.pow(1 - p, 3);
-                    balNum.textContent = '\u09F3' + bnComma(Math.round(50000 * e));
+                    const v = bnComma(Math.round(50000 * e));
+                    notifAmt.textContent = '+ \u09F3' + v;
+                    notifBal.textContent = '\u09F3' + v;
                     if (p < 1) requestAnimationFrame(step);
-                    else { balNum.classList.add('done'); balChip.classList.add('show'); }
+                    else notifAmt.classList.add('done');
                 };
                 requestAnimationFrame(step);
-            }, 850));
+            }, 1150));
         }
 
         function play() {
             clearTimers();
             card.classList.remove('play'); void card.offsetWidth; card.classList.add('play');
-            phoneWrap.classList.remove('play'); void phoneWrap.offsetWidth; phoneWrap.classList.add('play');
-            flyNotes(); countUp();
+            notifWrap.classList.remove('play'); void notifWrap.offsetWidth; notifWrap.classList.add('play');
+            countUp();
         }
 
         window.addEventListener('DOMContentLoaded', play);
