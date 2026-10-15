@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>BeHisabi Promo - Scene 1 (0s - 5.48s)</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Plus+Jakarta+Sans:wght@600;700;800&display=swap" rel="stylesheet">
+    <style>:root {
+            --bg-deep: #060b16;
+            --bg-surface: #0d1629;
+            --card-bg: rgba(17, 27, 48, 0.78);
+            --card-border: rgba(255, 255, 255, 0.09);
+            --text-main: #f8fafc;
+            --text-muted: #94a3b8;
+            --accent-emerald: #10b981;
+            --accent-emerald-glow: rgba(16, 185, 129, 0.22);
+            --accent-coral: #f43f5e;
+            --accent-coral-glow: rgba(244, 63, 94, 0.22);
+            --accent-amber: #f59e0b;
+            --accent-amber-glow: rgba(245, 158, 11, 0.22);
+            --current-accent: var(--accent-emerald);
+            --current-glow: var(--accent-emerald-glow);
+        }
+
+* {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            user-select: none;
+        }
+
+body {
+            width: 100vw;
+            height: 100vh;
+            overflow: hidden;
+            background-color: var(--bg-deep);
+            font-family: 'Hind Siliguri', sans-serif;
+            color: var(--text-main);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: relative;
+            cursor: pointer;
+        }
+
+/* Ambient Background Mesh & Grid */
+        .ambient-bg {
+            position: absolute;
+            inset: 0;
+            background: 
+                radial-gradient(circle at 20% 25%, var(--current-glow), transparent 45%),
+                radial-gradient(circle at 80% 75%, rgba(56, 189, 248, 0.10), transparent 50%),
+                linear-gradient(160deg, #050912 0%, #0b1324 55%, #070d19 100%);
+            transition: background 0.6s ease;
+            z-index: 0;
+        }
+
+.grid-overlay {
+            position: absolute;
+            inset: 0;
+            background-image: 
+                linear-gradient(to right, rgba(255,255,255,0.025) 1px, transparent 1px),
+                linear-gradient(to bottom, rgba(255,255,255,0.025) 1px, transparent 1px);
+            background-size: 48px 48px;
+            mask-image: radial-gradient(circle at center, black 45%, transparent 90%);
+            z-index: 1;
+        }
+
+.glass-card {
+            background: var(--card-bg);
+            border: 1px solid var(--card-border);
+            border-radius: 26px;
+            padding: 28px;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45);
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            position: relative;
+            overflow: hidden;
+            opacity: 0;
+            transform: translateY(20px) scale(0.98);
+            transition: opacity 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                        transform 0.55s cubic-bezier(0.22, 1, 0.36, 1),
+                        border-color 0.45s ease,
+                        box-shadow 0.45s ease;
+        }
+
+.glass-card.visible {
+            opacity: 1;
+            transform: translateY(0) scale(1);
+        }
+
+.glass-card.state-salary {
+            border-color: rgba(16, 185, 129, 0.32);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), 0 0 40px rgba(16, 185, 129, 0.12);
+        }
+
+.glass-card.state-empty {
+            border-color: rgba(244, 63, 94, 0.38);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), 0 0 40px rgba(244, 63, 94, 0.15);
+        }
+
+.glass-card.state-question {
+            border-color: rgba(245, 158, 11, 0.42);
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.45), 0 0 45px rgba(245, 158, 11, 0.16);
+        }
+
+/* Left Card: Calendar Display */
+        .calendar-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+.card-label {
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-muted);
+            letter-spacing: 0.3px;
+        }
+
+.icon-box {
+            width: 44px;
+            height: 44px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--current-accent);
+            transition: all 0.4s ease;
+        }
+
+.calendar-center {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 16px 0;
+            background: rgba(255, 255, 255, 0.025);
+            border: 1px solid rgba(255, 255, 255, 0.06);
+            border-radius: 22px;
+            margin: 12px 0;
+            flex: 1;
+            transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), background 0.4s ease;
+        }
+
+.calendar-center.flip-anim {
+            transform: scale(0.92);
+        }
+
+.date-number {
+            font-size: 76px;
+            font-weight: 700;
+            line-height: 1;
+            color: #ffffff;
+            transition: color 0.35s ease;
+        }
+
+.date-word {
+            margin-top: 8px;
+            font-size: 20px;
+            font-weight: 600;
+            color: var(--current-accent);
+            transition: color 0.35s ease;
+        }
+
+.calendar-footer {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+            padding: 12px 16px;
+            border-radius: 14px;
+            background: rgba(255, 255, 255, 0.04);
+            font-size: 15px;
+            font-weight: 600;
+            color: var(--text-main);
+        }
+        /* ===== Perfect 9:16 stage ===== */
+        body {
+            height: 100dvh;
+        }
+        .stage {
+            aspect-ratio: 9 / 16;
+            height: min(100dvh, 177.78vw);
+            container-type: size;
+            position: relative;
+            z-index: 2;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 5cqw;
+            overflow: hidden;
+        }
+        .main-grid {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            height: 100%;
+        }
+
+        /* ===== Calendar hero card (scales with frame via cqw) ===== */
+        #calendarCard {
+            width: 84%;
+            height: 64%;
+            padding: 7cqw;
+            border-radius: 7cqw;
+        }
+        .card-label { font-size: 4cqw; }
+        .icon-box {
+            width: 12cqw;
+            height: 12cqw;
+            border-radius: 3.5cqw;
+        }
+        .icon-box svg { width: 6cqw; height: 6cqw; }
+        .calendar-center {
+            border-radius: 5cqw;
+            padding: 4cqw 0;
+            margin: 3cqw 0;
+        }
+        .date-number { font-size: 25cqw; }
+        .date-word { font-size: 6cqw; margin-top: 2cqw; }
+        .calendar-footer {
+            font-size: 4.4cqw;
+            padding: 3.5cqw 4cqw;
+            border-radius: 4cqw;
+            gap: 2.5cqw;
+        }
+        .calendar-footer svg { width: 5cqw; height: 5cqw; }
+    </style>
+</head>
+<body>
+
+    <div class="ambient-bg" id="ambientBg"></div>
+    <div class="grid-overlay"></div>
+
+    <main class="stage">
+        <section class="main-grid">
+<div class="glass-card" id="calendarCard">
+                <div class="calendar-header">
+                    <span class="card-label">মাসের ক্যালেন্ডার</span>
+                    <div class="icon-box" id="calendarIconBox">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round">
+                            <rect x="3" y="4" width="18" height="18" rx="3" ry="3"></rect>
+                            <line x1="16" y1="2" x2="16" y2="6"></line>
+                            <line x1="8" y1="2" x2="8" y2="6"></line>
+                            <line x1="3" y1="10" x2="21" y2="10"></line>
+                        </svg>
+                    </div>
+                </div>
+
+                <div class="calendar-center" id="calendarCenter">
+                    <div class="date-number" id="dateNum">০১</div>
+                    <div class="date-word" id="dateLabel">তারিখ</div>
+                </div>
+
+                <div class="calendar-footer" id="calendarFooter">
+                    <svg id="footerIcon" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#10b981" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                    </svg>
+                    <span id="calendarFootText">বেতন জমা হয়েছে</span>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <script>
+        function setTheme(accentColor, glowColor) {
+            document.documentElement.style.setProperty('--current-accent', accentColor);
+            document.documentElement.style.setProperty('--current-glow', glowColor);
+        }
+
+        const timers = [];
+
+        function runTimeline() {
+            timers.forEach(t => clearTimeout(t));
+            timers.length = 0;
+
+            const calendarCard = document.getElementById('calendarCard');
+            const calendarCenter = document.getElementById('calendarCenter');
+            const dateNum = document.getElementById('dateNum');
+            const dateLabel = document.getElementById('dateLabel');
+            const calendarFootText = document.getElementById('calendarFootText');
+            const footerIcon = document.getElementById('footerIcon');
+
+            // Reset (0.00s)
+            setTheme('#10b981', 'rgba(16, 185, 129, 0.22)');
+            calendarCard.className = 'glass-card state-salary';
+            dateNum.textContent = '০১';
+            dateLabel.textContent = 'তারিখ';
+            calendarFootText.textContent = 'বেতন জমা হয়েছে';
+            footerIcon.setAttribute('stroke', '#10b981');
+
+            // 0.10s: reveal
+            timers.push(setTimeout(() => {
+                calendarCard.classList.add('visible');
+            }, 100));
+
+            // 2.15s: "আর ১৫ তারিখেই পকেট ফাঁকা।"
+            timers.push(setTimeout(() => {
+                setTheme('#f43f5e', 'rgba(244, 63, 94, 0.24)');
+                calendarCenter.classList.add('flip-anim');
+                setTimeout(() => {
+                    dateNum.textContent = '১৫';
+                    dateLabel.textContent = 'তারিখ';
+                    calendarCenter.classList.remove('flip-anim');
+                }, 180);
+                calendarFootText.textContent = 'পকেট একদম ফাঁকা!';
+                footerIcon.setAttribute('stroke', '#f43f5e');
+                calendarCard.className = 'glass-card visible state-empty';
+            }, 2150));
+
+            // 3.90s: "টাকাগুলো গেল কই?"
+            timers.push(setTimeout(() => {
+                setTheme('#f59e0b', 'rgba(245, 158, 11, 0.24)');
+                calendarCenter.classList.add('flip-anim');
+                setTimeout(() => {
+                    dateNum.textContent = '১৫';
+                    dateLabel.textContent = 'গেল কই?';
+                    calendarCenter.classList.remove('flip-anim');
+                }, 160);
+                calendarFootText.textContent = 'হিসাব খুঁজে পাওয়া যাচ্ছে না';
+                footerIcon.setAttribute('stroke', '#f59e0b');
+                calendarCard.className = 'glass-card visible state-question';
+            }, 3900));
+        }
+
+        window.addEventListener('DOMContentLoaded', runTimeline);
+        document.body.addEventListener('click', runTimeline);
+        window.addEventListener('keydown', (e) => {
+            if (e.code === 'Space' || e.key === 'r' || e.key === 'R') runTimeline();
+        });
+    </script>
+</body>
+</html>
