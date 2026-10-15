@@ -252,6 +252,34 @@ body {
         .notif-amt.done { animation: balPop .45s cubic-bezier(.2,1.4,.4,1); }
         @keyframes balPop { 40% { transform: scale(1.08); } }
         .notif-sub { margin-top: 1.6cqw; font-size: 3.4cqw; color: #8b98ab; font-weight: 500; }
+        /* ============ subtitle (SRT line 1) ============ */
+        .subtitle {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 88%;
+            text-align: center;
+            font-size: 4.8cqw;
+            font-weight: 600;
+            color: #fff;
+            line-height: 1.5;
+            text-shadow: 0 .4cqw 1.2cqw rgba(0,0,0,.92), 0 0 .6cqw rgba(0,0,0,.9);
+            opacity: 0;
+            z-index: 5;
+        }
+        .subtitle.show { animation: subIn .3s ease-out forwards; }
+        @keyframes subIn { to { opacity: 1; } }
+        .subtitle .cursor {
+            display: inline-block;
+            width: .55cqw; height: 4.4cqw;
+            background: #fff;
+            margin-left: 1cqw;
+            vertical-align: -.5cqw;
+            animation: blink .7s steps(1) infinite;
+            box-shadow: 0 0 1cqw rgba(0,0,0,.8);
+        }
+        @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
 <body>
@@ -299,6 +327,7 @@ body {
                 <div class="notif-sub">মোট ব্যালেন্স: <span id="notifBal">৳০</span></div>
             </div>
         </div>
+        <div class="subtitle" id="subtitle"></div>
 </main>
 
             <script>
@@ -311,6 +340,8 @@ body {
         const notifWrap = document.getElementById('notifWrap');
         const notifAmt = document.getElementById('notifAmt');
         const notifBal = document.getElementById('notifBal');
+        const subtitle = document.getElementById('subtitle');
+        const SUB_TEXT = '১ তারিখে বেতন এলো...';
         let timers = [];
 
         // Build the 30-day month grid; day 1 selected
@@ -343,11 +374,33 @@ body {
             }, 1150));
         }
 
+        /* Subtitle types itself out, grapheme-safe for Bengali */
+        function typeSubtitle() {
+            subtitle.classList.remove('show');
+            void subtitle.offsetWidth;
+            subtitle.classList.add('show');
+            const segs = [...new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(SUB_TEXT)].map(s => s.segment);
+            subtitle.innerHTML = '<span id="subText"></span><span class="cursor"></span>';
+            const txt = subtitle.querySelector('#subText');
+            let i = 0;
+            const tick = () => {
+                if (i < segs.length) {
+                    txt.textContent += segs[i++];
+                    timers.push(setTimeout(tick, 55));
+                } else {
+                    const cur = subtitle.querySelector('.cursor');
+                    if (cur) cur.style.display = 'none';
+                }
+            };
+            tick();
+        }
+
         function play() {
             clearTimers();
             card.classList.remove('play'); void card.offsetWidth; card.classList.add('play');
             notifWrap.classList.remove('play'); void notifWrap.offsetWidth; notifWrap.classList.add('play');
             countUp();
+            timers.push(setTimeout(typeSubtitle, 400));
         }
 
         window.addEventListener('DOMContentLoaded', play);
