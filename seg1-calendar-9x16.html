@@ -258,26 +258,34 @@ body {
             top: 50%;
             left: 50%;
             transform: translate(-50%, -50%);
-            width: 88%;
+            width: 92%;
             text-align: center;
-            font-size: 4.8cqw;
-            font-weight: 600;
+            font-size: 7.6cqw;
+            font-weight: 800;
             color: #fff;
-            line-height: 1.5;
-            text-shadow: 0 .4cqw 1.2cqw rgba(0,0,0,.92), 0 0 .6cqw rgba(0,0,0,.9);
+            line-height: 1.4;
+            text-shadow: none;
+            filter: drop-shadow(0 .5cqw 1.4cqw rgba(0,0,0,.85));
             opacity: 0;
             z-index: 5;
+            white-space: nowrap;
         }
         .subtitle.show { animation: subIn .3s ease-out forwards; }
         @keyframes subIn { to { opacity: 1; } }
+        .subtitle .tw { color: #ffffff; }
+        .subtitle .tg {
+            background: linear-gradient(135deg, #4ade80, #10b981);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
         .subtitle .cursor {
             display: inline-block;
-            width: .55cqw; height: 4.4cqw;
+            width: .6cqw; height: 6.6cqw;
             background: #fff;
-            margin-left: 1cqw;
-            vertical-align: -.5cqw;
+            margin-left: 1.2cqw;
+            vertical-align: -.8cqw;
             animation: blink .7s steps(1) infinite;
-            box-shadow: 0 0 1cqw rgba(0,0,0,.8);
         }
         @keyframes blink { 50% { opacity: 0; } }
     </style>
@@ -341,7 +349,11 @@ body {
         const notifAmt = document.getElementById('notifAmt');
         const notifBal = document.getElementById('notifBal');
         const subtitle = document.getElementById('subtitle');
-        const SUB_TEXT = '১ তারিখে বেতন এলো...';
+        const SUB_PARTS = [
+            { text: '১ তারিখে', cls: 'w' },
+            { text: ' ', cls: 'w' },
+            { text: 'বেতন এল', cls: 'g' },
+        ];
         let timers = [];
 
         // Build the 30-day month grid; day 1 selected
@@ -374,19 +386,24 @@ body {
             }, 1150));
         }
 
-        /* Subtitle types itself out, grapheme-safe for Bengali */
+        /* Subtitle types itself out, grapheme-safe for Bengali, two colors */
         function typeSubtitle() {
             subtitle.classList.remove('show');
             void subtitle.offsetWidth;
             subtitle.classList.add('show');
-            const segs = [...new Intl.Segmenter(undefined, { granularity: 'grapheme' }).segment(SUB_TEXT)].map(s => s.segment);
-            subtitle.innerHTML = '<span id="subText"></span><span class="cursor"></span>';
-            const txt = subtitle.querySelector('#subText');
+            const seg = new Intl.Segmenter(undefined, { granularity: 'grapheme' });
+            const items = [];
+            SUB_PARTS.forEach(p => {
+                [...seg.segment(p.text)].forEach(s => items.push({ ch: s.segment, cls: p.cls }));
+            });
+            subtitle.innerHTML = '<span class="tw"></span><span class="tg"></span><span class="cursor"></span>';
+            const spans = { w: subtitle.querySelector('.tw'), g: subtitle.querySelector('.tg') };
             let i = 0;
             const tick = () => {
-                if (i < segs.length) {
-                    txt.textContent += segs[i++];
-                    timers.push(setTimeout(tick, 55));
+                if (i < items.length) {
+                    const it = items[i++];
+                    spans[it.cls].textContent += it.ch;
+                    timers.push(setTimeout(tick, 60));
                 } else {
                     const cur = subtitle.querySelector('.cursor');
                     if (cur) cur.style.display = 'none';
