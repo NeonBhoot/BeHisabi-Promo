@@ -252,7 +252,7 @@ body {
         .notif-amt.done { animation: balPop .45s cubic-bezier(.2,1.4,.4,1); }
         @keyframes balPop { 40% { transform: scale(1.08); } }
         .notif-sub { margin-top: 1.6cqw; font-size: 3.4cqw; color: #8b98ab; font-weight: 500; }
-        /* ============ subtitle (SRT line 1) ============ */
+        /* ============ subtitle (SRT line 1): CSS-only typing ============ */
         .subtitle {
             position: absolute;
             top: 50%;
@@ -264,23 +264,30 @@ body {
             font-weight: 800;
             color: #fff;
             line-height: 1.4;
-            text-shadow: none;
             filter: drop-shadow(0 .5cqw 1.4cqw rgba(0,0,0,.85));
-            opacity: 0;
             z-index: 5;
             white-space: nowrap;
         }
-        .subtitle.show { animation: subIn .3s ease-out forwards; }
-        @keyframes subIn { to { opacity: 1; } }
         .subtitle .tw { color: #ffffff; }
         .subtitle .tg { color: #34d399; }
         @supports ((-webkit-background-clip: text) or (background-clip: text)) {
-            .subtitle .tg {
+            /* gradient must sit on the <i> itself: background-clip:text
+               does not reach text nested in child elements */
+            .subtitle .tg i {
                 background: linear-gradient(135deg, #4ade80, #10b981);
                 -webkit-background-clip: text;
                 background-clip: text;
                 color: transparent;
             }
+        }
+        .subtitle i { font-style: normal; display: inline-block; opacity: 0; }
+        .subtitle.show i {
+            animation: charIn .14s ease-out forwards;
+            animation-delay: calc(.4s + var(--n) * .07s);
+        }
+        @keyframes charIn {
+            from { opacity: 0; transform: translateY(.8cqw); }
+            to { opacity: 1; transform: none; }
         }
         .subtitle .cursor {
             display: inline-block;
@@ -288,8 +295,10 @@ body {
             background: #fff;
             margin-left: 1.2cqw;
             vertical-align: -.8cqw;
-            animation: blink .7s steps(1) infinite;
+            opacity: 0;
         }
+        .subtitle.show .cursor { opacity: 1; animation: blink .7s steps(1) infinite; }
+        .subtitle.typed .cursor { animation: none; opacity: 0; }
         @keyframes blink { 50% { opacity: 0; } }
     </style>
 </head>
@@ -338,7 +347,7 @@ body {
                 <div class="notif-sub">মোট ব্যালেন্স: <span id="notifBal">৳০</span></div>
             </div>
         </div>
-        <div class="subtitle" id="subtitle"></div>
+        <div class="subtitle show" id="subtitle"><span class="tw"><i style="--n:0">১</i><i style="--n:1"> </i><i style="--n:2">তা</i><i style="--n:3">রি</i><i style="--n:4">খে</i><i style="--n:5"> </i></span><span class="tg"><i style="--n:6">বে</i><i style="--n:7">ত</i><i style="--n:8">ন</i><i style="--n:9"> </i><i style="--n:10">এ</i><i style="--n:11">ল</i></span><span class="cursor"></span></div>
 </main>
 
             <script>
@@ -352,11 +361,6 @@ body {
         const notifAmt = document.getElementById('notifAmt');
         const notifBal = document.getElementById('notifBal');
         const subtitle = document.getElementById('subtitle');
-        const SUB_PARTS = [
-            { text: '১ তারিখে', cls: 'w' },
-            { text: ' ', cls: 'w' },
-            { text: 'বেতন এল', cls: 'g' },
-        ];
         let timers = [];
 
         // Build the 30-day month grid; day 1 selected
@@ -389,43 +393,16 @@ body {
             }, 1150));
         }
 
-        /* Subtitle types itself out, grapheme-safe for Bengali, two colors */
-        function graphemes(str) {
-            if (typeof Intl !== 'undefined' && Intl.Segmenter) {
-                return [...new Intl.Segmenter(undefined, { granularity: 'grapheme' })].map(s => s.segment);
-            }
-            return [...str];
-        }
-        function typeSubtitle() {
-            subtitle.classList.remove('show');
-            void subtitle.offsetWidth;
-            subtitle.classList.add('show');
-            const items = [];
-            SUB_PARTS.forEach(p => {
-                graphemes(p.text).forEach(ch => items.push({ ch, cls: p.cls }));
-            });
-            subtitle.innerHTML = '<span class="tw"></span><span class="tg"></span><span class="cursor"></span>';
-            const spans = { w: subtitle.querySelector('.tw'), g: subtitle.querySelector('.tg') };
-            let i = 0;
-            const tick = () => {
-                if (i < items.length) {
-                    const it = items[i++];
-                    spans[it.cls].textContent += it.ch;
-                    timers.push(setTimeout(tick, 60));
-                } else {
-                    const cur = subtitle.querySelector('.cursor');
-                    if (cur) cur.style.display = 'none';
-                }
-            };
-            tick();
-        }
-
+        /* Subtitle typing is pure CSS (.show retriggers); JS only hides the cursor at the end */
         function play() {
             clearTimers();
             card.classList.remove('play'); void card.offsetWidth; card.classList.add('play');
             notifWrap.classList.remove('play'); void notifWrap.offsetWidth; notifWrap.classList.add('play');
             countUp();
-            timers.push(setTimeout(typeSubtitle, 400));
+            subtitle.classList.remove('show', 'typed');
+            void subtitle.offsetWidth;
+            subtitle.classList.add('show');
+            timers.push(setTimeout(() => subtitle.classList.add('typed'), 1700));
         }
 
         window.addEventListener('DOMContentLoaded', play);
